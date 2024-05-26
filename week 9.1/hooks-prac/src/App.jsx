@@ -4,9 +4,18 @@ import './App.css'
 
 function App() {
 
+const [render,setRender] = useState(true);
+
+    useEffect(()=>{
+      setInterval(()=>{
+        setRender( r=> !r);
+      },5000)
+    },[]);
+
+
   return (
     <>
-      <MyComponent />
+      {render ? <MyComponent/> : <div></div>}      
     </>
   )
 }
