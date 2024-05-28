@@ -3,7 +3,7 @@ import axios from 'axios'
 
 function App() {
   // Corrected destructuring syntax and adjusted return value from useTodos
-  const [todos, loading] = useTodos();
+  const [todos, loading] = useTodos(5);
 
   if (loading) {
     return <div>loading.....</div>
@@ -19,11 +19,26 @@ function App() {
   )
 }
 
-function useTodos() {
+function useTodos(n) {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
+      setInterval(()=>{
+        const n = 5000;
+        axios.get("https://sum-server.100xdevs.com/todos")
+        .then(res => {
+          setTodos(res.data.todos);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error("Error fetching todos:", error);
+          setLoading(false);
+        });
+
+      }, n *1000)
+
     axios.get("https://sum-server.100xdevs.com/todos")
       .then(res => {
         setTodos(res.data.todos);
