@@ -27,6 +27,7 @@ function App() {
       {todos.map((todo, index) => (
         <Track key={index} todo={todo} />
       ))}
+      
     </>
   );
 }
