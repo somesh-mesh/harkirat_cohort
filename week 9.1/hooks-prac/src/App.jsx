@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useIsOnline from './useLine';
- // Import the useIsOnline hook
+import useMousePointer from './useMousePointer';
+
 
 function App() {
   const [todos, loading] = useTodos(2);
   const isOnline = useIsOnline();
+  const { x, y } = useMousePointer();
 
   if (!isOnline) {
     console.log("You're not online");
@@ -19,6 +21,9 @@ function App() {
 
   return (
     <>
+      <div>
+        Mouse Position: X: {x}, Y: {y}
+      </div>
       {todos.map((todo, index) => (
         <Track key={index} todo={todo} />
       ))}
