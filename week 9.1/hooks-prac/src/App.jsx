@@ -1,22 +1,29 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import useIsOnline from './useLine';
+ // Import the useIsOnline hook
 
 function App() {
-  // Corrected destructuring syntax and adjusted return value from useTodos
   const [todos, loading] = useTodos(2);
+  const isOnline = useIsOnline();
+
+  if (!isOnline) {
+    console.log("You're not online");
+  } else {
+    console.log("Yay, you are online");
+  }
 
   if (loading) {
-    return <div>loading.....</div>
+    return <div>loading.....</div>;
   }
 
   return (
     <>
       {todos.map((todo, index) => (
-        // Added key prop to each Track component
         <Track key={index} todo={todo} />
       ))}
     </>
-  )
+  );
 }
 
 function useTodos(n) {
@@ -34,8 +41,7 @@ function useTodos(n) {
           console.error("Error fetching todos:", error);
           setLoading(false);
         });
-
-    }, n * 1000)
+    }, n * 1000);
 
     axios.get("https://sum-server.100xdevs.com/todos")
       .then(res => {
@@ -47,13 +53,11 @@ function useTodos(n) {
         setLoading(false);
       });
 
-      return()=>{
-        clearInterval(value);
-      }
-
+    return () => {
+      clearInterval(value);
+    };
   }, [n]);
 
-  // Corrected return to use array syntax
   return [todos, loading];
 }
 
@@ -64,7 +68,7 @@ function Track({ todo }) {
       <br />
       {todo.description}
     </div>
-  )
+  );
 }
 
 export default App;
